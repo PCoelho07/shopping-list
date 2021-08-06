@@ -1,11 +1,12 @@
 export interface AddItem {
-    add: (item: AddItem.Params) => Promise<void>
+    add: (item: AddItemInput) => Promise<AddItemOutput>
 }
 
-namespace AddItem {
-    export type Params  = {
-        id: number
-        name: string
-        value: number
-    }
+export type AddItemInput = {
+    name: string
+    value: number
+}
+
+export type AddItemOutput = AddItemInput & {
+    id: number
 }
