@@ -1,14 +1,20 @@
-import { Item } from "@/domain/entities/Item";
-import { ItemRepository } from "@/domain/entities/Item/ItemRepository";
+import { Item } from "@/domain/entities/item/item";
+import { ItemRepository } from "@/domain/entities/item/item-repository";
+import { List } from "@/domain/entities/list/list";
+import { ListRepository } from "@/domain/entities/list/list-repository";
 import { AddItem as AddItemInterface, AddItemInput, AddItemOutput } from "@/domain/usecases/add-item";
 
 export class AddItem implements AddItemInterface {
-    constructor(private readonly itemRepository: ItemRepository) {
-        this.itemRepository = itemRepository
-    }
+    constructor(
+        private readonly itemRepository: ItemRepository,
+        private readonly listRepository: ListRepository
+    ) { }
 
-    async add(itemData: AddItemInput): Promise<AddItemOutput> {
+    async add(listId: number, itemData: AddItemInput): Promise<AddItemOutput> {
+        const list: List = await this.listRepository.findById(listId)
         const item: Item = new Item(itemData.name, itemData.value)
+
+        list.addItem(item)
 
         const payload = {
             name: item.getName(),

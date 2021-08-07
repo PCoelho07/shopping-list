@@ -2,6 +2,8 @@ export class Item {
     protected id: number
     protected name: string
     protected value: number
+    protected checked: boolean
+    protected updatedAt?: Date
 
     constructor(name: string, value: number) {
         if (name === '') {
@@ -14,11 +16,28 @@ export class Item {
 
         this.value = value
         this.name = name
+        this.checked = false
         this.id = 0
+    }
+
+    hasUpdated(): void {
+        this.updatedAt = new Date()
+    }
+
+    setChecked(check: boolean): void {
+        this.checked = check
     }
 
     setId(id: number): void {
         this.id = id
+    }
+
+    hasChecked(): boolean {
+        return this.checked
+    }
+
+    getUpdatedAt(): Date | undefined {
+        return this.updatedAt
     }
 
     getName(): string {

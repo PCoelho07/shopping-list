@@ -1,5 +1,5 @@
 export interface AddItem {
-    add: (item: AddItemInput) => Promise<AddItemOutput>
+    add: (listId: number, item: AddItemInput) => Promise<AddItemOutput>
 }
 
 export type AddItemInput = {
