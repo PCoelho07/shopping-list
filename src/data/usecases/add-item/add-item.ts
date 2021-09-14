@@ -10,15 +10,16 @@ export class AddItem implements AddItemInterface {
         private readonly listRepository: ListRepository
     ) { }
 
-    async add(listId: number, itemData: AddItemInput): Promise<AddItemOutput> {
+    async add(listId: string, itemData: AddItemInput): Promise<AddItemOutput> {
         const list: List = await this.listRepository.findById(listId)
         const item: Item = new Item(itemData.name, itemData.value)
 
         list.addItem(item)
 
         const payload = {
+            listId,
             name: item.getName(),
-            value: item.getValue()
+            value: item.getValue(),
         }
 
         const itemStored = await this.itemRepository.save(payload)
@@ -28,7 +29,8 @@ export class AddItem implements AddItemInterface {
         return {
             id: item.getId(),
             name: item.getName(),
-            value: item.getValue()
+            value: item.getValue(),
+            listId: list.getId()
         }
     }
 }

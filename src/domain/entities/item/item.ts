@@ -1,11 +1,11 @@
 export class Item {
-    protected id: number
+    protected id: string
     protected name: string
     protected value: number
     protected checked: boolean
     protected updatedAt?: Date
 
-    constructor(name: string, value: number) {
+    constructor(name: string, value: number, checked: boolean = false, id: string = '') {
         if (name === '') {
             throw new Error("name cannot be blank")
         }
@@ -16,8 +16,8 @@ export class Item {
 
         this.value = value
         this.name = name
-        this.checked = false
-        this.id = 0
+        this.checked = checked
+        this.id = id
     }
 
     hasUpdated(): void {
@@ -28,7 +28,7 @@ export class Item {
         this.checked = check
     }
 
-    setId(id: number): void {
+    setId(id: string): void {
         this.id = id
     }
 
@@ -48,7 +48,15 @@ export class Item {
         return this.value
     }
 
-    getId(): number {
+    getId(): string {
         return this.id
+    }
+
+    setName(name: string): void {
+        this.name = name
+    }
+
+    setValue(value: number): void {
+        this.value = value
     }
 }

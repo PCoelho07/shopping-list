@@ -9,13 +9,13 @@ class LocalItemRepository implements ItemRepository {
 
     constructor() {
         this.item = new Item('test', 10)
-        this.item.setId(1)
+        this.item.setId('teste')
     }
 
     async save(params: ItemRepositoryInput): Promise<ItemRepositoryOutput> {
         return new Promise((resolve) => {
             resolve({
-                id: 1,
+                id: 'teste',
                 name: params.name,
                 value: params.value,
                 checked: false
@@ -23,7 +23,7 @@ class LocalItemRepository implements ItemRepository {
         })
     }
 
-    async findById(id: number): Promise<ItemRepositoryOutput> {
+    async findById(id: string): Promise<ItemRepositoryOutput> {
         return new Promise((resolve) => {
             resolve({
                 id: this.item.getId(),
@@ -34,14 +34,14 @@ class LocalItemRepository implements ItemRepository {
         })
     }
 
-    async check(id: number, checked: boolean): Promise<boolean> {
+    async check(id: string, checked: boolean): Promise<boolean> {
         return new Promise((resolve) => {
             this.item.setChecked(checked)
             resolve(true)
         })
     }
 
-    async update(id: number, params: UpdateItemRepositoryInput): Promise<boolean> {
+    async update(id: string, params: UpdateItemRepositoryInput): Promise<boolean> {
         return new Promise((resolve, reject) => {
             resolve(true)
         })
@@ -53,11 +53,11 @@ describe('CheckUpItem', () => {
         const repository: LocalItemRepository = new LocalItemRepository()
         const checkupItemUseCase = new CheckUpItem(repository)
 
-        const checked = await checkupItemUseCase.check(1)
+        const checked = await checkupItemUseCase.check('teste')
 
         expect(checked).toBe(true)
 
-        const unchecked = await checkupItemUseCase.check(1)
+        const unchecked = await checkupItemUseCase.check('teste')
 
         expect(unchecked).toBe(false)
     })

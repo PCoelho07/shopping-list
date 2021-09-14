@@ -2,15 +2,26 @@ import { Item } from "@/domain/entities/item/item";
 import { User } from "@/domain/entities/user/user";
 
 export class List {
-    protected owner: User
+    protected id: string
+    protected owner?: User
+    protected name: string
     protected items: Array<Item>
 
-    constructor(owner: User, items: Array<Item>) {
+    constructor(name: string, items: Array<Item> = [], id: string = '') {
+        this.name = name
         this.items = items
+        this.id = id
+    }
+
+    setOwner(owner: User): void {
         this.owner = owner
     }
 
     hasOwner(owner: User): boolean {
+        if (this.owner === undefined) {
+            return false
+        }
+
         return this.owner.getEmail() === owner.getEmail()
     }
 
@@ -42,5 +53,17 @@ export class List {
         }
 
         return itemFound[0]
+    }
+
+    getItems(): Array<Item> {
+        return this.items
+    }
+
+    getName(): string {
+        return this.name
+    }
+
+    getId(): string {
+        return this.id
     }
 }

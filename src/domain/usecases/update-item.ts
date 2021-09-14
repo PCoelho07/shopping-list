@@ -1,5 +1,5 @@
 export interface UpdateItem {
-    update: (id: number, params: UpdateItemInput) => Promise<UpdateItemOutput>
+    update: (id: string, params: UpdateItemInput) => Promise<UpdateItemOutput>
 }
 
 export type UpdateItemInput = {
@@ -8,5 +8,5 @@ export type UpdateItemInput = {
 }
 
 export type UpdateItemOutput = {
-    id: number
+    id: string
 }

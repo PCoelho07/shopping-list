@@ -10,11 +10,9 @@ export class CheckUpItem implements CheckUpItemInterface {
 
     }
 
-    async check(itemId: number): Promise<boolean> {
+    async check(itemId: string): Promise<boolean> {
         const itemData: ItemRepositoryOutput = await this.itemRepository.findById(itemId)
-        const item: Item = new Item(itemData.name, itemData.value)
-
-        item.setChecked(!itemData.checked)
+        const item: Item = new Item(itemData.name, itemData.value, !itemData.checked, itemData.id)
         await this.itemRepository.check(item.getId(), item.hasChecked())
 
         return item.hasChecked()

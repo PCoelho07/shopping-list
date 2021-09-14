@@ -9,7 +9,7 @@ class LocalItemRepository implements ItemRepository {
     async save(params: ItemRepositoryInput): Promise<ItemRepositoryOutput> {
         return new Promise((resolve) => {
             resolve({
-                id: 1,
+                id: 'teste',
                 name: params.name,
                 value: params.value,
                 checked: false
@@ -17,15 +17,15 @@ class LocalItemRepository implements ItemRepository {
         })
     }
 
-    async findById(id: number): Promise<ItemRepositoryOutput> {
+    async findById(id: string): Promise<ItemRepositoryOutput> {
         return new Promise((resolve) => {})
     }
 
-    async check(id: number, checked: boolean): Promise<boolean> {
+    async check(id: string, checked: boolean): Promise<boolean> {
         return new Promise((resolve) => {})
     }
 
-    async update(id: number, params: UpdateItemRepositoryInput): Promise<boolean> {
+    async update(id: string, params: UpdateItemRepositoryInput): Promise<boolean> {
         return new Promise((resolve, reject) => {
             resolve(true)
         })
@@ -33,17 +33,16 @@ class LocalItemRepository implements ItemRepository {
 }
 
 class LocalListRepository implements ListRepository {
-    findById(id: number): Promise<List> {
+    findById(id: string): Promise<List> {
         return new Promise((resolve, reject) => {
-            const owner: User = new User('test-user', 'user@user.com.br')
-
-            const items: Item[] = [
-                new Item('test-item', 10)
-            ]
-
-            const list: List = new List(owner, items)
-
+            const list: List = new List('list-name', [new Item('test-item', 10)], 'teste')
             resolve(list)
+        })
+    }
+
+    save(name: string): Promise<boolean> {
+        return new Promise((resolve) => {
+            resolve(true)
         })
     }
 }
@@ -54,15 +53,16 @@ describe('AddItem', () => {
         const listRepositoryInstance = new LocalListRepository()
         const addItem = new AddItem(repositoryInstance, listRepositoryInstance)
 
-        const response = await addItem.add(1, {
+        const response = await addItem.add('teste', {
             name: 'new item',
             value: 10
         })
 
         expect(response).toEqual({
-            id: 1,
+            id: 'teste',
             name: 'new item',
-            value: 10
+            value: 10,
+            listId: 'teste'
         })
 
     })
@@ -73,7 +73,7 @@ describe('AddItem', () => {
         const addItem = new AddItem(repositoryInstance, listRepositoryInstance)
 
         await expect(async () => {
-            await addItem.add(1, {
+            await addItem.add('teste', {
                 name: 'test-item',
                 value: 10
             })

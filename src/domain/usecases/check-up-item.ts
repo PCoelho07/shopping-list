@@ -1,3 +1,3 @@
 export interface CheckUpItem {
-    check: (itemId: number) => Promise<boolean>
+    check: (itemId: string) => Promise<boolean>
 }
